@@ -1,0 +1,48 @@
+events {
+    worker_connections  5000;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+        
+    log_format  main  '$remote_addr - $remote_user [$time_local] $request '
+                      '"$status" $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+    sendfile        on;
+    keepalive_timeout  65;
+
+    # fastcgi nodes
+    upstream  backend  {
+        server unix:/tmp/fcgi.sock;
+    }
+    
+    #
+    # THE DEFAULT SERVER
+    #
+    server {
+        listen       80;
+        server_name  localhost;
+        root   /var/www/html;
+
+                index index.php;
+
+                location ~ \.php$ {
+                        fastcgi_index index.php;
+                        include /etc/nginx/fastcgi_params;
+                        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                        if (-e $request_filename) { # check if requested path exists
+                                fastcgi_pass backend;
+                        }               
+                }               
+                
+        location /phpmyadmin/ {                               
+            alias       /usr/share/phpMyAdmin/;
+            index       index.html index.htm index.php;
+        }               
+        
+    # Load config files from the /etc/nginx/conf.d directory
+    include /etc/nginx/conf.d/*.conf;
+}
