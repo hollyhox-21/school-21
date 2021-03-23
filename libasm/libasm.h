@@ -6,7 +6,7 @@
 /*   By: rjoella <rjoella@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 15:29:18 by rjoella           #+#    #+#             */
-/*   Updated: 2021/03/22 19:42:57 by rjoella          ###   ########.fr       */
+/*   Updated: 2021/03/23 18:35:02 by rjoella          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 
 # define KO printf("KO\t")
-# define OK printf("KO\t")
+# define OK printf("OK\t")
 
 int		ft_strlen(char *str);
 char	*ft_strcpy(char *dst, char *src);
