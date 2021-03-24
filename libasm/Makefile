@@ -42,6 +42,6 @@ fclean: clean
 	@rm -f $(NAME) $(TEST)
 
 test: $(NAME)
-	$(CC) main.c -L. -lasm -o $(TEST)
+	$(CC) main.c -L. -lasm -o $(TEST) -fsanitize=address
 
 re: fclean all
